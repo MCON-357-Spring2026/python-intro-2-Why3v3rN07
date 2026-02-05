@@ -38,8 +38,9 @@ Example:
 """
 
 def write_lines(filepath: str, lines: list) -> None:
-    # TODO: Implement this function
-    pass
+    with open(filepath, "w", encoding="utf-8") as f:
+        for line in lines:
+            f.write(line + "\n")
 
 
 # =============================================================================
@@ -62,9 +63,9 @@ Example:
 """
 
 def read_lines(filepath: str) -> list:
-    # TODO: Implement this function
-    # Hint: Use strip() on each line to remove newlines
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+        all_lines = f.readlines()
+    return [line.strip() for line in all_lines]
 
 
 # =============================================================================
@@ -89,9 +90,8 @@ Example:
 """
 
 def append_line(filepath: str, line: str) -> None:
-    # TODO: Implement this function
-    # Hint: Use "a" mode for append
-    pass
+    with open(filepath, "a", encoding="utf-8") as f:
+        f.write(line + "\n")
 
 
 # =============================================================================
