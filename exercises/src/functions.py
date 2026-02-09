@@ -31,9 +31,7 @@ Example:
 """
 
 def calculate_area(width: float, height: float) -> float:
-    # TODO: Implement this function
-    pass
-
+    return width * height
 
 # =============================================================================
 # EXERCISE 1.2: Function with Default Values
@@ -57,9 +55,7 @@ Example:
 """
 
 def format_price(amount: float, currency: str = "$", decimals: int = 2) -> str:
-    # TODO: Implement this function
-    # Hint: Use round() and f-strings
-    pass
+    return f"{currency}{round(amount, decimals)}"
 
 
 # =============================================================================
@@ -85,9 +81,9 @@ Example:
 """
 
 def find_max(*args) -> float:
-    # TODO: Implement this function
-    # Hint: Check if args is empty first
-    pass
+    if len(args) == 0:
+        raise ValueError("At least one value is required")
+    else: return max(args)
 
 
 # =============================================================================
@@ -110,9 +106,10 @@ Example:
 """
 
 def build_tag(tag_name: str, **kwargs) -> str:
-    # TODO: Implement this function
-    # Hint: Loop through kwargs.items() to build attribute string
-    pass
+    string = "<" + tag_name
+    for key, value in kwargs.items():
+        string += f' {key}="{value}"'
+    return string + ">"
 
 
 # =============================================================================
@@ -139,8 +136,7 @@ Example:
 """
 
 def send_notification(recipient: str, message: str, *cc, **options) -> dict:
-    # TODO: Implement this function
-    pass
+    return {"to": recipient, "message": message, "cc": list(cc), "options": options}
 
 
 # =============================================================================
@@ -150,30 +146,29 @@ def send_notification(recipient: str, message: str, *cc, **options) -> dict:
 Complete the lambda expressions below.
 """
 
-# TODO: Create a lambda that doubles a number
+# Create a lambda that doubles a number
 # Example: double(5) -> 10
-double = None  # Replace None with your lambda
+double = lambda x: x * 2
 
 
-# TODO: Create a lambda that checks if a number is even
+# Create a lambda that checks if a number is even
 # Example: is_even(4) -> True, is_even(7) -> False
-is_even = None  # Replace None with your lambda
+is_even = lambda x: (x % 2 == 0)
 
 
-# TODO: Create a lambda that returns the last character of a string
+# Create a lambda that returns the last character of a string
 # Example: last_char("hello") -> "o"
-last_char = None  # Replace None with your lambda
+last_char = lambda s: s[-1]
 
 
-# TODO: Use a lambda with sorted() to sort these words by their LENGTH
+# Use a lambda with sorted() to sort these words by their LENGTH
 words = ["python", "java", "go", "javascript", "c"]
 # Expected result: ["c", "go", "java", "python", "javascript"]
-sorted_by_length = None  # Replace None with sorted(..., key=lambda ...)
+sorted_by_length = sorted(words, key=lambda w: len(w))
 
-
-# TODO: Use a lambda with filter() to get only positive numbers
+# Use a lambda with filter() to get only positive numbers
 numbers = [-3, 5, -1, 8, 0, -2, 10]
 # Expected result: [5, 8, 10]
-positive_only = None  # Replace None with list(filter(...))
+positive_only = list(filter(lambda n: n > 0, numbers))
 
 
