@@ -114,9 +114,8 @@ Example:
 """
 
 def count_words(filepath: str) -> int:
-    # TODO: Implement this function
-    # Hint: Read the file, split on whitespace, count the parts
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+        return len(f.read().split())
 
 
 # =============================================================================
@@ -141,8 +140,8 @@ Example:
 """
 
 def save_json(filepath: str, data: dict) -> None:
-    # TODO: Implement this function
-    pass
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
 
 
 # =============================================================================
@@ -163,8 +162,8 @@ Example:
 """
 
 def load_json(filepath: str) -> dict:
-    # TODO: Implement this function
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
 # =============================================================================
@@ -189,12 +188,16 @@ Example:
 """
 
 def update_json(filepath: str, **updates) -> None:
-    # TODO: Implement this function
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    for key in updates:
+            data[key] = updates[key]
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
 
 
 # =============================================================================
-# EXERCISE 3.8: Todo List Manager
+# EXERCISE 3.8: To-do List Manager
 # =============================================================================
 """
 Create a TodoList class that persists to a JSON file.
@@ -226,35 +229,42 @@ Example:
 class TodoList:
     def __init__(self, filepath: str):
         self.filepath = filepath
-        # TODO: Load existing todos from file, or initialize empty list
-        # Hint: Use try/except to handle file not existing
-        self.todos = []
+        try:
+            with open(self.filepath, "r") as f:
+                self.todos = json.load(f)
+        except FileNotFoundError:
+            self.todos = []
 
     def _save(self) -> None:
         """Helper method to save todos to file."""
-        # TODO: Save self.todos to self.filepath as JSON
-        pass
+        with open(self.filepath, "w", encoding="utf-8") as f:
+            json.dump(self.todos, f, indent=2)
 
     def _next_id(self) -> int:
         """Helper method to get the next available ID."""
-        # TODO: Return max id + 1, or 1 if no todos exist
-        pass
+        return self.todos[-1].get("id")+1 if self.todos else 1
 
     def add(self, task: str) -> int:
-        # TODO: Create new todo, add to list, save, return id
-        pass
+        self.todos.append({"id": self._next_id(), "task": task, "done": False})
+        self._save()
+        return self.todos[-1].get("id")
 
     def complete(self, todo_id: int) -> bool:
-        # TODO: Find todo by id, set done=True, save, return True
-        # Return False if not found
-        pass
+        for todo in self.todos:
+            if todo.get("id") == todo_id:
+                todo["done"] = True
+                self._save()
+                return True
+        return False
 
     def get_pending(self) -> list:
-        # TODO: Return todos where done=False
-        pass
+        undone = []
+        for todo in self.todos:
+            if not todo.get("done"):
+                undone.append(todo)
+        return undone
 
     def get_all(self) -> list:
-        # TODO: Return all todos
-        pass
+        return self.todos
 
 
